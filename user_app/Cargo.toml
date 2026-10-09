@@ -1,0 +1,18 @@
+[package]
+name = "user_app"
+version.workspace = true
+edition.workspace = true
+authors.workspace = true
+license.workspace = true
+description = "Binario de la aplicación móvil simulada del usuario."
+
+[[bin]]
+name = "user_app"
+path = "src/main.rs"
+
+[dependencies]
+actix = { workspace = true }
+common = { workspace = true }
+serde = { workspace = true }
+serde_json = { workspace = true }
+tokio = { workspace = true }

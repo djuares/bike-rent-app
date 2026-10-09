@@ -1,0 +1,12 @@
+/target
+**/target
+Cargo.lock.bak
+*.swp
+.DS_Store
+
+.env
+
+*.wal
+*.wal.json
+station_state_*.json
+tx_log*.jsonl

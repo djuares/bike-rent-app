@@ -1,0 +1,21 @@
+# syntax=docker/dockerfile:1
+
+FROM rust:latest AS build
+WORKDIR /src
+COPY . .
+RUN --mount=type=cache,target=/usr/local/cargo/registry \
+    --mount=type=cache,target=/usr/local/cargo/git \
+    cargo build --release --workspace
+
+FROM debian:bookworm-slim
+RUN apt-get update && apt-get install -y --no-install-recommends \
+        ca-certificates \
+        netcat-openbsd \
+    && rm -rf /var/lib/apt/lists/*
+
+COPY --from=build /src/target/release/station         /usr/local/bin/station
+COPY --from=build /src/target/release/payment_gateway /usr/local/bin/payment_gateway
+COPY --from=build /src/target/release/user_app        /usr/local/bin/user_app
+
+WORKDIR /deploy
+CMD ["bash"]

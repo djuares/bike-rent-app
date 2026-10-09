@@ -1,0 +1,12 @@
+{
+  "station_id": 1,
+  "port": 8001,
+  "payment_peers": [
+    "127.0.0.1:9001",
+    "127.0.0.1:9002",
+    "127.0.0.1:9003"
+  ],
+  "stations_file": "stations.json",
+  "wal_path": "station-1.wal",
+  "query_radius_km": 5.0
+}

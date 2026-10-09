@@ -1,0 +1,111 @@
+# Compose de los actores corriendo en una red interna del TP.
+#
+#   stations : 172.30.0.11 / .12 / .13   (puertos 8001 / 8002 / 8003)
+#   gateways : 172.30.0.31 / .32 / .33   (puertos 9001 / 9002 / 9003, clúster Bully)
+#   users    : 172.30.0.51 / .52         (on-demand, perfil "user")
+# Uso:
+#   docker compose -f deploy/docker-compose.actors.yml up -d --build
+#   docker compose -f deploy/docker-compose.actors.yml run --rm -T user1
+#   docker compose -f deploy/docker-compose.actors.yml down -v
+
+name: tp-terris-actors
+
+x-actor: &actor
+  build:
+    context: ..
+    dockerfile: deploy/Dockerfile.runtime
+  image: tp-terris:latest
+  volumes:
+    - ./:/deploy
+  init: true
+  restart: "no"
+
+services:
+  station1:
+    <<: *actor
+    container_name: tp-station1
+    command: station
+    working_dir: /deploy/station1
+    networks:
+      tp-net:
+        ipv4_address: 172.30.0.11
+
+  station2:
+    <<: *actor
+    container_name: tp-station2
+    command: station
+    working_dir: /deploy/station2
+    networks:
+      tp-net:
+        ipv4_address: 172.30.0.12
+
+  station3:
+    <<: *actor
+    container_name: tp-station3
+    command: station
+    working_dir: /deploy/station3
+    networks:
+      tp-net:
+        ipv4_address: 172.30.0.13
+
+  gateway1:
+    <<: *actor
+    container_name: tp-gateway1
+    command: payment_gateway
+    working_dir: /deploy/gateway1
+    networks:
+      tp-net:
+        ipv4_address: 172.30.0.31
+
+  gateway2:
+    <<: *actor
+    container_name: tp-gateway2
+    command: payment_gateway
+    working_dir: /deploy/gateway2
+    networks:
+      tp-net:
+        ipv4_address: 172.30.0.32
+
+  gateway3:
+    <<: *actor
+    container_name: tp-gateway3
+    command: payment_gateway
+    working_dir: /deploy/gateway3
+    networks:
+      tp-net:
+        ipv4_address: 172.30.0.33
+
+  # Usuarios on-demand: no arrancan con `up` (perfil "user"); se invocan con
+  # `docker compose ... run --rm -T userN` alimentando comandos por stdin.
+  user1:
+    <<: *actor
+    container_name: tp-user1
+    profiles: ["user"]
+    command: user_app
+    working_dir: /deploy/user1
+    stdin_open: true
+    tty: false
+    networks:
+      tp-net:
+        ipv4_address: 172.30.0.51
+
+  user2:
+    <<: *actor
+    container_name: tp-user2
+    profiles: ["user"]
+    command: user_app
+    working_dir: /deploy/user2
+    stdin_open: true
+    tty: false
+    networks:
+      tp-net:
+        ipv4_address: 172.30.0.52
+
+networks:
+  tp-net:
+    name: tp-terris-net
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.30.0.0/24
+          gateway: 172.30.0.1

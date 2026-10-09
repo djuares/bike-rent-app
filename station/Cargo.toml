@@ -1,0 +1,19 @@
+[package]
+name = "station"
+version.workspace = true
+edition.workspace = true
+authors.workspace = true
+license.workspace = true
+description = "Binario de la estación física. Coordina slots, gossip y 2PC."
+
+[[bin]]
+name = "station"
+path = "src/main.rs"
+
+[dependencies]
+actix = { workspace = true }
+common = { workspace = true }
+serde = { workspace = true }
+serde_json = { workspace = true }
+tokio = { workspace = true }
+uuid = { workspace = true }

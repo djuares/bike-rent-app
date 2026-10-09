@@ -1,0 +1,9 @@
+target/
+**/target/
+.git/
+*.log
+
+**/*.wal
+**/*.wal.json
+**/station_state_*.json
+**/tx_log*.jsonl

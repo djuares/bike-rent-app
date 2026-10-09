@@ -1,0 +1,14 @@
+{
+  "station_id": 3,
+  "port": 8003,
+  "payment_peers": [
+    "172.30.0.33:9003",
+    "172.30.0.32:9002",
+    "172.30.0.31:9001"
+  ],
+  "stations_file": "../stations.docker.json",
+  "wal_path": "station-3.wal",
+  "query_radius_km": 5.0,
+  "num_slots": 5,
+  "initial_bikes": 3
+}
