@@ -1,9 +1,4 @@
-# Sistema distribuido de alquiler de bicicletas — TP Técnicas de Programación Concurrente
-
-> **Primera entrega: Diseño.** Fecha máxima: 27 de Mayo de 2026.
-> Cátedra de Técnicas de Programación Concurrente, FIUBA.
-
----
+# Sistema distribuido para alquiler y devolución de bicicletas
 
 ## Índice
 
